@@ -1,8 +1,9 @@
 var BlogController = function() {
 
 	this.urls = {
-		'login' : 'user_details/login.json',
-		'newPost' : 'blogs/newpost.json'
+		'login': 'user_details/login.json',
+		'newPost': 'blogs/newpost.json',
+		'getBlogs': '/blogs/jsonview.json'
 	};
 
 	this.username = null;
@@ -54,6 +55,22 @@ var BlogController = function() {
 		}
 	}
 
+	this.getBlogs = function() {
+		var url = this.urls['getBlogs'];
+		$.ajax(url, this.globalGetRequestOptions).done(function(data) {
+
+			//Hide all existing containers
+			$(".container").css("display", "none");
+
+			//Show the Blog list container with the buttons
+			$("#blogsContainer").css("display", "");
+
+			//setup the blog list
+			$("#blogEntries").empty();
+			$("#blogEntryTemplate").tmpl(data.blogs).appendTo("#blogEntries");
+		});
+	};
+	
 	this.showNewPostScreen = function() {
 		if (this.isUserAuthenticated()) {
 			//Hide all existing containers
@@ -98,22 +115,6 @@ var BlogController = function() {
 			
 		}
 		//on failure show error
-	}
-
-	this.getBlogs = function() {
-		var url = '/blogs/jsonview.json';
-		$.ajax(url, this.globalGetRequestOptions).done(function(data) {
-
-			//Hide all existing containers
-			$(".container").css("display", "none");
-
-			//Show the Blog list container with the buttons
-			$("#blogsContainer").css("display", "");
-
-			//setup the blog list
-			$("#blogEntries").empty();
-			$("#blogEntryTemplate").tmpl(data.blogs).appendTo("#blogEntries");
-		});
 	};
 
 	this.logout = function() {
