@@ -10,6 +10,11 @@ var BlogController = function() {
 	this.username = null;
 	this.usernameAuthenticated = false;
 
+	this.errorStyle = {
+		"display" : "",
+		"color" : "red",
+		"margin-left" : "20%"
+	};
 	this.globalGetRequestOptions = {
 		cache : false,
 		type : 'GET',
@@ -103,18 +108,13 @@ var BlogController = function() {
 		var confirmPass = $("#confirmPassword").val();
 		var email = $("#email").val();
 
-		var errorStyle = {
-				"display" : "",
-				"color" : "red",
-				"margin-left" : "20%"
-		};
 		if (!username || !password || !confirmPass) {
 			//show error message
 			$("#signUpErrorMsgDiv").html("Please enter valid values for all required fields!");
-			$("#signUpErrorMsgDiv").css(errorStyle);
+			$("#signUpErrorMsgDiv").css(this.errorStyle);
 		} else if (password !== confirmPass) {
 			$("#signUpErrorMsgDiv").html("Password fields do not match!");
-			$("#signUpErrorMsgDiv").css(errorStyle);
+			$("#signUpErrorMsgDiv").css(this.errorStyle);
 		} else {
 			//Submit the sign up form
 			$.post(this.urls['signUp'], {
@@ -177,6 +177,10 @@ var BlogController = function() {
 			$("#title").attr("value", '');
 			$("#content").attr("value", '');
 
+			//Clear error message
+			$("#newPostErrorMsgDiv").html('');
+			$("#newPostErrorMsgDiv").css("display", "none");
+
 			//Show the new post page
 			$("#newPostContainer").css("display", "");
 
@@ -190,11 +194,17 @@ var BlogController = function() {
 			var blogContent = $("#content").val();
 			var authorName = this.username;
 
-			$.post(this.urls['newPost'], {
-				"title" : blogTitle,
-				"content" : blogContent,
-				"name" : authorName
-			}, this.newPostResponseHandler, "json");
+			if (blogTitle && blogContent) {
+				$.post(this.urls['newPost'], {
+					"title" : blogTitle,
+					"content" : blogContent,
+					"name" : authorName
+				}, this.newPostResponseHandler, "json");
+			} else {
+				$("#newPostErrorMsgDiv").html('Please enter valid values for all required fields.');
+				$("#newPostErrorMsgDiv").css(this.errorStyle);
+			}
+
 		}
 	};
 

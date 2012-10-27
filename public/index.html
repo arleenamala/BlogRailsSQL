@@ -62,14 +62,15 @@
 				<h1 align="center">Blog Application!</h1>
 				<form name="newPostForm" id="newPostForm" style="vertical-align: middle; margin-left: 20%" class="form-horizontal"
 				onsubmit="javascript:void(0);">
+					<div id="newPostErrorMsgDiv"></div>
 					<div class="control-group">
-						<label class="control-label" for="title">Blog Title</label>
+						<label class="control-label" for="title">Blog Title <span style="color:red">*</span></label>
 						<div class="controls">
 							<input type="text" id="title" name="title" placeholder="Title" value="">
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label" for="content">Content</label>
+						<label class="control-label" for="content">Content <span style="color:red">*</span></label>
 						<div class="controls">
 							<textarea id="content" placeholder="Blog post content goes here..."></textarea>
 						</div>
