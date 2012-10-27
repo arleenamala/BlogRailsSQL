@@ -68,11 +68,12 @@ var BlogController = function() {
 	this.loginResponseHandler = function(data) {
 		var loginResult = data.hashedname;
 		if (loginResult) {
-			//Set authenticated state
+			//Success - Set authenticated state
 			blogController.setAuthenticatedState(true);
 			//Valid result, login success, show the blogs list page
 			blogController.getBlogs();
 		} else {
+			//Login failed - set state accordingly
 			blogController.setAuthenticatedState(false);
 			//Show error message in the login div
 			$("#loginErrorMsgDiv").html("Invalid username or password. Try again!");
@@ -136,12 +137,8 @@ var BlogController = function() {
 			blogController.showLoginScreen();
 		} else {
 			//Show error message in the signup div
-			$("#signUpErrorMsgDiv").html("There was an error in the sign up process. Try again with a different username!");
-			$("#signUpErrorMsgDiv").css({
-				"display" : "",
-				"color" : "red",
-				"margin-left" : "20%"
-			});
+			$("#signUpErrorMsgDiv").html("There was an error in the sign up process! Try again with a different username!");
+			$("#signUpErrorMsgDiv").css(blogController.errorStyle);
 		}
 	};
 
