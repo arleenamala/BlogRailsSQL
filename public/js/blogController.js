@@ -1,16 +1,17 @@
 var BlogController = function() {
 
 	this.urls = {
-		'login': 'user_details/login.json',
-		'newPost': 'blogs/newpost.json',
-		'getBlogs': '/blogs/jsonview.json'
+		'login' : 'user_details/login.json',
+		'newPost' : 'blogs/newpost.json',
+		'getBlogs' : 'blogs/jsonview.json',
+		'signUp' : 'user_details/signup.json'
 	};
 
 	this.username = null;
 	this.usernameAuthenticated = false;
 
 	this.globalGetRequestOptions = {
-		cache: false,
+		cache : false,
 		type : 'GET',
 		contentType : 'application/json'
 	};
@@ -31,14 +32,16 @@ var BlogController = function() {
 		//Clear error message if any, and hide the div
 		this.clearLoginErrorMsg(true);
 
+		//Hide all other containers
+		$(".container").css("display", "none");
 		//show the login page
 		$("#loginContainer").css("display", "");
 		$("#username").focus();
 	};
-	
+
 	this.clearLoginErrorMsg = function(hide) {
 		$("loginErrorMsgDiv").html("");
-		if(hide) {
+		if (hide) {
 			$("#loginErrorMsgDiv").css("display", "none");
 		}
 	}
@@ -47,10 +50,10 @@ var BlogController = function() {
 		var username = $("#username").val();
 		var password = $("#password").val();
 		this.username = username;
-		
+
 		//Clear error message if any, hide the error message div
 		this.clearLoginErrorMsg(true);
-		
+
 		$.post(this.urls['login'], {
 			"name" : username,
 			"password" : password
@@ -68,9 +71,86 @@ var BlogController = function() {
 			blogController.setAuthenticatedState(false);
 			//Show error message in the login div
 			$("#loginErrorMsgDiv").html("Invalid username or password. Try again!");
-			$("#loginErrorMsgDiv").css({"display": "", "color": "red", "margin-left": "20%"});			
+			$("#loginErrorMsgDiv").css({
+				"display" : "",
+				"color" : "red",
+				"margin-left" : "20%"
+			});
 		}
-	}
+	};
+
+	this.showSignUp = function() {
+		//clear the user name, password and email values
+		$("#signUpUsername").attr('value', '');
+		$("#signUpPassword").attr('value', '');
+		$("#confirmPassword").attr('value', '');
+		$("#email").attr('value', '');
+
+		//Hide all other containers
+		$(".container").css("display", "none");
+
+		//Clear error message if any, and hide the div
+		this.clearSignUpErrorMsg(true);
+
+		//show the login page
+		$("#signUpContainer").css("display", "");
+		$("#username").focus();
+	};
+
+	this.signUp = function() {
+		var username = $("#signUpUsername").val();
+		var password = $("#signUpPassword").val();
+		var confirmPass = $("#confirmPassword").val();
+		var email = $("#email").val();
+
+		var errorStyle = {
+				"display" : "",
+				"color" : "red",
+				"margin-left" : "20%"
+		};
+		if (!username || !password || !confirmPass) {
+			//show error message
+			$("#signUpErrorMsgDiv").html("Please enter valid values for all required fields!");
+			$("#signUpErrorMsgDiv").css(errorStyle);
+		} else if (password !== confirmPass) {
+			$("#signUpErrorMsgDiv").html("Password fields do not match!");
+			$("#signUpErrorMsgDiv").css(errorStyle);
+		} else {
+			//Submit the sign up form
+			$.post(this.urls['signUp'], {
+				"name" : username,
+				"password" : password,
+				"email" : email
+			}, this.signUpResponseHandler, "json");
+
+		}
+	};
+
+	this.signUpResponseHandler = function(data) {
+		var signUpResult = data.hashedname;
+		if (signUpResult) {
+			//hide all containers
+			$(".container").css("display", "none");
+
+			//show the login screen
+			blogController.showLoginScreen();
+		} else {
+			//Show error message in the signup div
+			$("#signUpErrorMsgDiv").html("There was an error in the sign up process. Try again with a different username!");
+			$("#signUpErrorMsgDiv").css({
+				"display" : "",
+				"color" : "red",
+				"margin-left" : "20%"
+			});
+		}
+	};
+
+	this.clearSignUpErrorMsg = function(hide) {
+		$("#signUpErrorMsgDiv").html('');
+		if (hide) {
+			$("#signUpErrorMsgDiv").css("display", "none");
+		}
+	};
 
 	this.getBlogs = function() {
 		var url = this.urls['getBlogs'];
@@ -87,13 +167,13 @@ var BlogController = function() {
 			$("#blogEntryTemplate").tmpl(data.blogs).appendTo("#blogEntries");
 		});
 	};
-	
+
 	this.showNewPostScreen = function() {
 		if (this.isUserAuthenticated()) {
 			//Hide all existing containers
 			$(".container").css("display", "none");
 
-			//Clear the new post form 
+			//Clear the new post form
 			$("#title").attr("value", '');
 			$("#content").attr("value", '');
 
@@ -111,9 +191,9 @@ var BlogController = function() {
 			var authorName = this.username;
 
 			$.post(this.urls['newPost'], {
-				"title": blogTitle,
-				"content": blogContent,
-				"name": authorName
+				"title" : blogTitle,
+				"content" : blogContent,
+				"name" : authorName
 			}, this.newPostResponseHandler, "json");
 		}
 	};
@@ -121,15 +201,15 @@ var BlogController = function() {
 	this.newPostResponseHandler = function(data) {
 		//on success show blogs list page
 		var test = data;
-		console.log("received the post response..."+data);
-		if(data && data.success == "yes") {
-			//hide all containers 
+		console.log("received the post response..." + data);
+		if (data && data.success == "yes") {
+			//hide all containers
 			$(".container").css("display", "none");
-			
+
 			//Show the blogs list page
 			blogController.getBlogs();
 		} else {
-			
+
 		}
 		//on failure show error
 	};

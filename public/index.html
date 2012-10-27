@@ -12,17 +12,17 @@
 				<h1 align="center">Blog Application!</h1>
 				<form name="loginForm" id="loginForm" style="vertical-align: middle; margin-left: 20%" class="form-horizontal"
 				onsubmit="javascript:void(0);">
-					<div id="loginErrorMsgDiv" class="loginErrMsg" style="display:none;"></div>
+					<div id="loginErrorMsgDiv" style="display:none;"></div>
 					<div class="control-group">
 						<label class="control-label" for="username">Username</label>
 						<div class="controls">
-							<input type="text" id="username" placeholder="Username" value="arleen">
+							<input type="text" id="username" placeholder="Username" value="">
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="password">Password</label>
 						<div class="controls">
-							<input type="password" id="password" placeholder="Password" value="1234">
+							<input type="password" id="password" placeholder="Password" value="">
 						</div>
 					</div>
 					<div class="control-group">
@@ -30,7 +30,7 @@
 							<button type="button" class="btn btn-primary" onclick="blogController.login();">
 								Login
 							</button>
-							<button type="submit" class="btn">
+							<button type="button" class="btn" onclick="blogController.showSignUp();">
 								Signup
 							</button>
 						</div>
@@ -88,6 +88,51 @@
 			</div>
 
 		</div>
+		<div class="container" id="signUpContainer" style="display:none">
+			<div id="signUpDiv">
+				<!-- Sign up Page content-->
+				<h1 align="center">Blog Application!</h1>
+				<form name="signUpForm" id="signUpForm" style="vertical-align: middle; margin-left: 20%" class="form-horizontal"
+				onsubmit="javascript:void(0);">
+					<div id="signUpErrorMsgDiv" style="display:none;"></div>
+					<div class="control-group">
+						<label class="control-label" for="signUpUsername">Username <span style="color:red">*</span></label>
+						<div class="controls">
+							<input type="text" id="signUpUsername" placeholder="Username" value="">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="signUpPassword">Password <span style="color:red">*</span></label>
+						<div class="controls">
+							<input type="password" id="signUpPassword" placeholder="Password" value="">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="confirmPassword">Confirm Password <span style="color:red">*</span></label>
+						<div class="controls">
+							<input type="password" id="confirmPassword" placeholder="Confirm Password" value="">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="email">Email</label>
+						<div class="controls">
+							<input type="email" id="email" placeholder="user@email.com" value="">
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<button type="button" class="btn btn-primary" onclick="blogController.signUp();">
+								Signup
+							</button>
+							<button type="button" class="btn" onclick="blogController.showLoginScreen();">
+								Cancel
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		
 		<div id="loader" class="loading"></div>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="js/bootstrap.min.js"></script>
@@ -106,23 +151,6 @@
 			background-color: black;
 			font-family: helvetica;
 			color: papayawhip;
-		}
-		#loginErrMsg {
-			color: red;
-			margin-left: 20%;
-		}
-		div#loader {
-			border: 1px solid #ccc;
-			width: 500px;
-			height: 500px;
-		}
-
-		/**
-		 * While we're having the loading class set.
-		 * Removing it, will remove the loading message
-		 */
-		div#loader.loading {
-			background: url(images/spinner.gif) no-repeat center center;
 		}
 	</style>
 	<script type="text/javascript">
