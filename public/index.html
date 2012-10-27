@@ -6,46 +6,52 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 	</head>
 	<body>
-		<div class="container-fluid" id="loginContainer" style="display:none">
-			<div class="row-fluid">
-				<div class="span2"></div>
-				<div class="span10" id="loginDiv">
-					<h1>Blog Application!</h1>
-					<!--Body content-->
-					
-				</div>
-
-				<form class="form-horizontal">
+		<div class="container" id="loginContainer" style="display:none">
+			<div id="loginDiv">
+				<!-- Login Page content-->
+				<h1 align="center">Blog Application!</h1>
+				<form name="loginForm" id="loginForm" style="vertical-align: middle; margin-left: 20%" class="form-horizontal">
 					<div class="control-group">
 						<label class="control-label" for="username">Username</label>
 						<div class="controls">
-							<input type="text" id="username" placeholder="Username">
+							<input type="text" id="username" placeholder="Username" value="arleen">
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="password">Password</label>
 						<div class="controls">
-							<input type="password" id="password" placeholder="Password">
+							<input type="password" id="password" placeholder="Password" value="1234">
 						</div>
 					</div>
 					<div class="control-group">
 						<div class="controls">
-							<button type="submit" class="btn btn-primary">
+							<button type="button" class="btn btn-primary" onclick="blogController.login();">
 								Login
 							</button>
-							<button type="submit" class="btn">Signup</button>
+							<button type="submit" class="btn">
+								Signup
+							</button>
 						</div>
 					</div>
 				</form>
 			</div>
-
 		</div>
-		<div class="container-fluid" id="blogsContainer" style="display:none">
+		<div class="container" id="blogsContainer" style="display:none">
 			<div class="row-fluid">
-				<div class="span10" id="blogEntries">
-					<h1>Blog Application!</h1>
-					<!--Body content-->
+				<h1 align="center">Blog Application!</h1>
+				<div id="listPageBtns">
+					<button type="button" class="btn btn-danger" style="float:left" onclick="blogController.logout();">
+						Logout
+					</button>
+					<button type="button" class="btn btn-primary" style="float:right">
+						New Post
+					</button>
 				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span9" style="margin-left: 10%" id="blogEntries">
+					<!--Body content-->
+				</div>	
 			</div>
 		</div>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -55,7 +61,7 @@
 	</body>
 	<script id="blogEntryTemplate" type="text/x-jquery-tmpl">
 		<div>
-		<div>${subject} <span style="font-size: 6pt;"><i>${created}</i></span></div>
+		<div>${subject} <span style="float:right"><i>${created}</i></span></div>
 		<div><i>${content}</i></div>
 		<hr />
 		</div>
@@ -72,7 +78,7 @@
 		$(document).ready(function() {
 			if (!window.blogController) {
 				window.blogController = new BlogController();
-				$("#loginContainer").css("display", "");
+				blogController.showLoginScreen();			
 			}
 		});
 	</script>
