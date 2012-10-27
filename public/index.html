@@ -11,7 +11,8 @@
 				<!-- Login Page content-->
 				<h1 align="center">Blog Application!</h1>
 				<form name="loginForm" id="loginForm" style="vertical-align: middle; margin-left: 20%" class="form-horizontal"
-					onsubmit="javascript:void(0);">
+				onsubmit="javascript:void(0);">
+					<div id="loginErrorMsgDiv" class="loginErrMsg" style="display:none;"></div>
 					<div class="control-group">
 						<label class="control-label" for="username">Username</label>
 						<div class="controls">
@@ -52,7 +53,7 @@
 			<div class="row">
 				<div class="span9" style="margin-left: 10%" id="blogEntries">
 					<!--List of blogs go here -->
-				</div>	
+				</div>
 			</div>
 		</div>
 		<div class="container" id="newPostContainer" style="display:none">
@@ -60,7 +61,7 @@
 				<!-- Login Page content-->
 				<h1 align="center">Blog Application!</h1>
 				<form name="newPostForm" id="newPostForm" style="vertical-align: middle; margin-left: 20%" class="form-horizontal"
-					onsubmit="javascript:void(0);">
+				onsubmit="javascript:void(0);">
 					<div class="control-group">
 						<label class="control-label" for="title">Blog Title</label>
 						<div class="controls">
@@ -85,8 +86,9 @@
 					</div>
 				</form>
 			</div>
-			
+
 		</div>
+		<div id="loader" class="loading"></div>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery.tmpl.min.js"></script>
@@ -105,12 +107,29 @@
 			font-family: helvetica;
 			color: papayawhip;
 		}
+		#loginErrMsg {
+			color: red;
+			margin-left: 20%;
+		}
+		div#loader {
+			border: 1px solid #ccc;
+			width: 500px;
+			height: 500px;
+		}
+
+		/**
+		 * While we're having the loading class set.
+		 * Removing it, will remove the loading message
+		 */
+		div#loader.loading {
+			background: url(images/spinner.gif) no-repeat center center;
+		}
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			if (!window.blogController) {
 				window.blogController = new BlogController();
-				blogController.showLoginScreen();			
+				blogController.showLoginScreen();
 			}
 		});
 	</script>

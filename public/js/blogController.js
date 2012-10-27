@@ -10,6 +10,7 @@ var BlogController = function() {
 	this.usernameAuthenticated = false;
 
 	this.globalGetRequestOptions = {
+		cache: false,
 		type : 'GET',
 		contentType : 'application/json'
 	};
@@ -27,15 +28,29 @@ var BlogController = function() {
 		$("#username").attr('value', '');
 		$("#password").attr('value', '');
 
+		//Clear error message if any, and hide the div
+		this.clearLoginErrorMsg(true);
+
 		//show the login page
 		$("#loginContainer").css("display", "");
 		$("#username").focus();
 	};
+	
+	this.clearLoginErrorMsg = function(hide) {
+		$("loginErrorMsgDiv").html("");
+		if(hide) {
+			$("#loginErrorMsgDiv").css("display", "none");
+		}
+	}
 
 	this.login = function() {
 		var username = $("#username").val();
 		var password = $("#password").val();
 		this.username = username;
+		
+		//Clear error message if any, hide the error message div
+		this.clearLoginErrorMsg(true);
+		
 		$.post(this.urls['login'], {
 			"name" : username,
 			"password" : password
@@ -51,7 +66,9 @@ var BlogController = function() {
 			blogController.getBlogs();
 		} else {
 			blogController.setAuthenticatedState(false);
-			//TODO: Report incorrect login
+			//Show error message in the login div
+			$("#loginErrorMsgDiv").html("Invalid username or password. Try again!");
+			$("#loginErrorMsgDiv").css({"display": "", "color": "red", "margin-left": "20%"});			
 		}
 	}
 
