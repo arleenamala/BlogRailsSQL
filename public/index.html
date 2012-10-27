@@ -10,7 +10,8 @@
 			<div id="loginDiv">
 				<!-- Login Page content-->
 				<h1 align="center">Blog Application!</h1>
-				<form name="loginForm" id="loginForm" style="vertical-align: middle; margin-left: 20%" class="form-horizontal">
+				<form name="loginForm" id="loginForm" style="vertical-align: middle; margin-left: 20%" class="form-horizontal"
+					onsubmit="javascript:void(0);">
 					<div class="control-group">
 						<label class="control-label" for="username">Username</label>
 						<div class="controls">
@@ -37,22 +38,54 @@
 			</div>
 		</div>
 		<div class="container" id="blogsContainer" style="display:none">
-			<div class="row-fluid">
+			<div class="row">
 				<h1 align="center">Blog Application!</h1>
 				<div id="listPageBtns">
 					<button type="button" class="btn btn-danger" style="float:left" onclick="blogController.logout();">
 						Logout
 					</button>
-					<button type="button" class="btn btn-primary" style="float:right">
+					<button type="button" class="btn btn-primary" style="float:right" onclick="blogController.showNewPostScreen();">
 						New Post
 					</button>
 				</div>
 			</div>
-			<div class="row-fluid">
+			<div class="row">
 				<div class="span9" style="margin-left: 10%" id="blogEntries">
-					<!--Body content-->
+					<!--List of blogs go here -->
 				</div>	
 			</div>
+		</div>
+		<div class="container" id="newPostContainer" style="display:none">
+			<div id="newPostDiv">
+				<!-- Login Page content-->
+				<h1 align="center">Blog Application!</h1>
+				<form name="newPostForm" id="newPostForm" style="vertical-align: middle; margin-left: 20%" class="form-horizontal"
+					onsubmit="javascript:void(0);">
+					<div class="control-group">
+						<label class="control-label" for="title">Blog Title</label>
+						<div class="controls">
+							<input type="text" id="title" name="title" placeholder="Title" value="">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="content">Content</label>
+						<div class="controls">
+							<textarea id="content" placeholder="Blog post content goes here..."></textarea>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<button type="button" class="btn btn-primary" onclick="blogController.postBlogEntry();">
+								Post Blog
+							</button>
+							<button type="submit" class="btn btn-danger" onclick="blogController.getBlogs();">
+								Cancel
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			
 		</div>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="js/bootstrap.min.js"></script>
@@ -73,7 +106,6 @@
 			color: papayawhip;
 		}
 	</style>
-
 	<script type="text/javascript">
 		$(document).ready(function() {
 			if (!window.blogController) {
