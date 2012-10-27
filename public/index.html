@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bootstrap 101 Template</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <h1>Blog Application!</h1>
+    <div id="blogEntries">test</div>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.tmpl.min.js"></script>
+  </body>
+  <link rel="stylesheet" href="blog-styles.css" />
+  <script id="blogEntryTemplate" type="text/x-jquery-tmpl">
+    <div class="blog">
+        <div class="title">${subject}</div><div class = "datecreated" style="float:right"><i>${created}</i></div>
+        <hr/>
+        <pre class="blog-body"><i>${content}</i></pre>
+    </div>
+  </script>
+  
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var url = '/blogs/jsonview.json';
+      var options = {type: 'GET', contentType: "application/json"};      
+      $.ajax(url, options).done(function(data) {
+        var items = [];
+        $("#blogEntries").empty();
+        $("#blogEntryTemplate").tmpl( data.blogs ).appendTo("#blogEntries");
+      });
+      console.log("done calling");
+    });
+
+  </script>
+</html>
