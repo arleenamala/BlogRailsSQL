@@ -1,5 +1,11 @@
 class BlogsController < ApplicationController
 
+  before_filter :set_as_private
+
+  def set_as_private
+    expires_now
+  end
+  
   # GET /blogs/jsonview.json
   def jsonview
     @blogs = Blog.limit(100).order('created DESC')

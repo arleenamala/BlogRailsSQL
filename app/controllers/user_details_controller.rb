@@ -1,5 +1,11 @@
 class UserDetailsController < ApplicationController
 
+  before_filter :set_as_private
+
+  def set_as_private
+    expires_now
+  end
+  
   def check_user(users,pword)
     pword_enc = Digest::SHA256.hexdigest(pword)
     if UserDetail.authenticate_safely(users,pword_enc)
